@@ -12,6 +12,7 @@ This pipeline will update the `my-deployment` deployment with the image tagged `
             deployment: my-deployment
             repo: myorg/myrepo
             name: my-container
+            namespace: default
             tag: ${DRONE_COMMIT_SHA:8}
 
 ## Required secrets

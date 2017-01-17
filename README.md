@@ -11,7 +11,7 @@ This pipeline will update the `my-deployment` deployment with the image tagged `
             image: quay.io/honestbee/drone-kubernetes
             deployment: my-deployment
             repo: myorg/myrepo
-            name: my-container
+            container: my-container
             namespace: default
             tag: ${DRONE_COMMIT_SHA:8}
 

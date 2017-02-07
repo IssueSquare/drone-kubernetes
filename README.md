@@ -12,8 +12,34 @@ This pipeline will update the `my-deployment` deployment with the image tagged `
             deployment: my-deployment
             repo: myorg/myrepo
             container: my-container
-            namespace: default
             tag: ${DRONE_COMMIT_SHA:8}
+
+This more complex example demonstrates how to deploy to several environments based on the branch, in a `app` namespace 
+
+    pipeline:
+        deploy-staging:
+            image: quay.io/honestbee/drone-kubernetes
+            kubernetes_server: ${KUBERNETES_SERVER_STAGING}
+            kubernetes_token: ${KUBERNETES_TOKEN_STAGING}
+            deployment: my-deployment
+            repo: myorg/myrepo
+            container: my-container
+            namespace: app
+            tag: ${DRONE_COMMIT_SHA:8}
+            when:
+                branch: [ staging ]
+
+        deploy-prod:
+            image: quay.io/honestbee/drone-kubernetes
+            kubernetes_server: ${KUBERNETES_SERVER_PROD}
+            kubernetes_token: ${KUBERNETES_TOKEN_PROD}
+            deployment: my-deployment
+            repo: myorg/myrepo
+            container: my-container
+            namespace: app
+            tag: ${DRONE_COMMIT_SHA:8}
+            when:
+                branch: [ master ]
 
 ## Required secrets
 

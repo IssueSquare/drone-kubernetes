@@ -17,7 +17,7 @@ kubectl config set-cluster default --server=${KUBERNETES_SERVER} --insecure-skip
 kubectl config set-context default --cluster=default --user=default
 kubectl config use-context default
 
-IFS=', ' read -r -a DEPLOYMENTS <<< "$PLUGIN_DEPLOYMENT"
+IFS=',' read -r -a DEPLOYMENTS <<< "$PLUGIN_DEPLOYMENT"
 for DEPLOY in ${DEPLOYMENTS[@]}; do
   echo Deploying to $KUBERNETES_SERVER
   kubectl -n ${PLUGIN_NAMESPACE} set image deployment/${DEPLOY} \

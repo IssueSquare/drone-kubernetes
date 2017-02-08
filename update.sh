@@ -18,7 +18,7 @@ kubectl config set-context default --cluster=default --user=default
 kubectl config use-context default
 
 DEPLOYMENTS=$(echo $PLUGIN_DEPLOYMENT|tr -d '[],')
-for DEPLOY in ${DEPLOYMENTS[@]}; do
+for DEPLOY in "${DEPLOYMENTS[@]}"; do
   kubectl -n ${PLUGIN_NAMESPACE} set image deployment/${DEPLOY} \
     ${PLUGIN_CONTAINER}=${PLUGIN_REPO}:${PLUGIN_TAG}
 done

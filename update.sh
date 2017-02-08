@@ -19,6 +19,7 @@ kubectl config use-context default
 
 IFS=', ' read -r -a DEPLOYMENTS <<< "$PLUGIN_DEPLOYMENT"
 for DEPLOY in ${DEPLOYMENTS[@]}; do
+  echo Deploying to $KUBERNETES_SERVER
   kubectl -n ${PLUGIN_NAMESPACE} set image deployment/${DEPLOY} \
     ${PLUGIN_CONTAINER}=${PLUGIN_REPO}:${PLUGIN_TAG}
 done

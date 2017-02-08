@@ -16,4 +16,9 @@ kubectl config set-credentials default --token=${KUBERNETES_TOKEN}
 kubectl config set-cluster default --server=${KUBERNETES_SERVER} --insecure-skip-tls-verify=true
 kubectl config set-context default --cluster=default --user=default
 kubectl config use-context default
-kubectl -n ${PLUGIN_NAMESPACE} set image deployment/${PLUGIN_DEPLOYMENT} ${PLUGIN_CONTAINER}=${PLUGIN_REPO}:${PLUGIN_TAG}
+
+DEPLOYMENTS=$(echo $PLUGIN_DEPLOYMENT|tr -d '[],')
+for DEPLOY in ${DEPLOYMENTS[@]}; do
+  kubectl -n ${PLUGIN_NAMESPACE} set image deployment/${DEPLOY} \
+    ${PLUGIN_CONTAINER}=${PLUGIN_REPO}:${PLUGIN_TAG}
+done

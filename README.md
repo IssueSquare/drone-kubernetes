@@ -14,6 +14,16 @@ This pipeline will update the `my-deployment` deployment with the image tagged `
             container: my-container
             tag: ${DRONE_COMMIT_SHA:8}
 
+Deploying several new containers, eg in a scheduler-worker setup.
+    
+    pipeline:
+        deploy:
+            image: quay.io/honestbee/drone-kubernetes
+            deployment: [server-deploy, worker-deploy]
+            repo: myorg/myrepo
+            container: my-container
+            tag: ${DRONE_COMMIT_SHA:8}
+
 This more complex example demonstrates how to deploy to several environments based on the branch, in a `app` namespace 
 
     pipeline:

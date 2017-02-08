@@ -14,7 +14,7 @@ This pipeline will update the `my-deployment` deployment with the image tagged `
             container: my-container
             tag: ${DRONE_COMMIT_SHA:8}
 
-Deploying several new containers, eg in a scheduler-worker setup.
+Deploying several new containers, eg in a scheduler-worker setup. Make sure your container `name` in your manifest is the same for each pod.
     
     pipeline:
         deploy:

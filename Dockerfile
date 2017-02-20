@@ -1,8 +1,7 @@
-FROM alpine
-RUN apk -Uuv add curl ca-certificates bash
-RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-RUN chmod +x ./kubectl
-RUN mv ./kubectl /usr/local/bin/kubectl
-ADD update.sh /bin/
-RUN chmod +x /bin/update.sh
-CMD bash -c /bin/update.sh
+FROM alpine:3.4
+RUN apk --no-cache add curl ca-certificates bash
+RUN curl -o /usr/local/bin/kubectl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+RUN chmod +x /usr/local/bin/kubectl
+COPY update.sh /bin/
+ENTRYPOINT ["/bin/bash"]
+CMD ["/bin/update.sh"]

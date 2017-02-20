@@ -30,6 +30,7 @@ This more complex example demonstrates how to deploy to several environments bas
         deploy-staging:
             image: quay.io/honestbee/drone-kubernetes
             kubernetes_server: ${KUBERNETES_SERVER_STAGING}
+            kubernetes_cert: ${KUBERNETES_CERT_STAGING}
             kubernetes_token: ${KUBERNETES_TOKEN_STAGING}
             deployment: my-deployment
             repo: myorg/myrepo
@@ -43,6 +44,7 @@ This more complex example demonstrates how to deploy to several environments bas
             image: quay.io/honestbee/drone-kubernetes
             kubernetes_server: ${KUBERNETES_SERVER_PROD}
             kubernetes_token: ${KUBERNETES_TOKEN_PROD}
+            # notice: no tls verification will be done, warning will is printed
             deployment: my-deployment
             repo: myorg/myrepo
             container: my-container
@@ -56,9 +58,14 @@ This more complex example demonstrates how to deploy to several environments bas
     drone secret add --image=honestbee/drone-kubernetes \
         your-user/your-repo KUBERNETES_SERVER https://mykubernetesapiserver
 
+    drone secret add --image=honestbee/drone-kubernetes \
+        your-user/your-repo KUBERNETES_CERT <base64 encoded CA.crt>
 
     drone secret add --image=honestbee/drone-kubernetes \
         your-user/your-repo KUBERNETES_TOKEN eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJ...
+
+When using TLS Verification, ensure Server Certificate used by kubernetes API server 
+is signed for SERVER url ( could be a reason for failures if using aliases of kubernetes cluster )
 
 ## To do 
 

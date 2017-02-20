@@ -18,15 +18,16 @@ fi
 
 kubectl config set-credentials default --token=${KUBERNETES_TOKEN}
 if [ ! -z ${KUBERNETES_CERT} ]; then
-  echo ${KUBERNETES_CERT}} | base64 -d > ca.crt
+  echo ${KUBERNETES_CERT} | base64 -d > ca.crt
   kubectl config set-cluster default --server=${KUBERNETES_SERVER} --certificate-authority=ca.crt
 else
+  echo "WARNING: Using insecure connection to cluster"
   kubectl config set-cluster default --server=${KUBERNETES_SERVER} --insecure-skip-tls-verify=true
 fi
 
 kubectl config set-context default --cluster=default --user=default
 kubectl config use-context default
-  
+
 IFS=',' read -r -a DEPLOYMENTS <<< "$PLUGIN_DEPLOYMENT"
 for DEPLOY in ${DEPLOYMENTS[@]}; do
   echo Deploying to $KUBERNETES_SERVER

@@ -14,7 +14,7 @@ if [ ! -z ${PLUGIN_KUBERNETES_SERVER} ]; then
 fi
 
 if [ ! -z ${PLUGIN_KUBERNETES_CERT} ]; then
-  echo ${PLUGIN_KUBERNETES_CERT} > ca.crt
+  echo ${PLUGIN_KUBERNETES_CERT} | base64 -d > ca.crt
   kubectl config set-cluster default --server=${KUBERNETES_SERVER} --certificate-authority=ca.crt
 else
   kubectl config set-cluster default --server=${KUBERNETES_SERVER} --insecure-skip-tls-verify=true

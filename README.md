@@ -1,4 +1,4 @@
-# Kubernetes plugin for drone.io
+# Kubernetes plugin for drone.io [![Docker Repository on Quay](https://quay.io/repository/honestbee/drone-kubernetes/status "Docker Repository on Quay")](https://quay.io/repository/honestbee/drone-kubernetes)
 
 This plugin allows to update a Kubernetes deployment.
 

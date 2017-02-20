@@ -28,6 +28,7 @@ fi
 kubectl config set-context default --cluster=default --user=default
 kubectl config use-context default
 
+# kubectl version
 IFS=',' read -r -a DEPLOYMENTS <<< "$PLUGIN_DEPLOYMENT"
 for DEPLOY in ${DEPLOYMENTS[@]}; do
   echo Deploying to $KUBERNETES_SERVER

@@ -6,7 +6,6 @@ fi
 
 if [ ! -z ${PLUGIN_KUBERNETES_TOKEN} ]; then
   KUBERNETES_TOKEN=$PLUGIN_KUBERNETES_TOKEN
-  kubectl config set-credentials default --token=${KUBERNETES_TOKEN}
 fi
 
 if [ ! -z ${PLUGIN_KUBERNETES_SERVER} ]; then
@@ -14,7 +13,12 @@ if [ ! -z ${PLUGIN_KUBERNETES_SERVER} ]; then
 fi
 
 if [ ! -z ${PLUGIN_KUBERNETES_CERT} ]; then
-  echo ${PLUGIN_KUBERNETES_CERT} | base64 -d > ca.crt
+  KUBERNETES_CERT=${PLUGIN_KUBERNETES_CERT}
+fi
+
+kubectl config set-credentials default --token=${KUBERNETES_TOKEN}
+if [ ! -z ${KUBERNETES_CERT} ]; then
+  echo ${KUBERNETES_CERT}} | base64 -d > ca.crt
   kubectl config set-cluster default --server=${KUBERNETES_SERVER} --certificate-authority=ca.crt
 else
   kubectl config set-cluster default --server=${KUBERNETES_SERVER} --insecure-skip-tls-verify=true
@@ -22,7 +26,7 @@ fi
 
 kubectl config set-context default --cluster=default --user=default
 kubectl config use-context default
-
+  
 IFS=',' read -r -a DEPLOYMENTS <<< "$PLUGIN_DEPLOYMENT"
 for DEPLOY in ${DEPLOYMENTS[@]}; do
   echo Deploying to $KUBERNETES_SERVER

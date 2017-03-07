@@ -14,7 +14,7 @@ This pipeline will update the `my-deployment` deployment with the image tagged `
             container: my-container
             tag: ${DRONE_COMMIT_SHA:8}
 
-Deploying several new containers, eg in a scheduler-worker setup. Make sure your container `name` in your manifest is the same for each pod.
+Deploying containers across several deployments, eg in a scheduler-worker setup. Make sure your container `name` in your manifest is the same for each pod.
     
     pipeline:
         deploy:
@@ -23,6 +23,18 @@ Deploying several new containers, eg in a scheduler-worker setup. Make sure your
             repo: myorg/myrepo
             container: my-container
             tag: ${DRONE_COMMIT_SHA:8}
+
+Deploying multiple containers within the same deployment.
+
+    pipeline:
+        deploy:
+            image: quay.io/honestbee/drone-kubernetes
+            deployment: my-deployment
+            repo: myorg/myrepo
+            container: [container1, container2]
+            tag: ${DRONE_COMMIT_SHA:8}
+
+**NOTE**: Combining multi container deployments across multiple deployments is not recommended
 
 This more complex example demonstrates how to deploy to several environments based on the branch, in a `app` namespace 
 

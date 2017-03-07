@@ -29,9 +29,12 @@ kubectl config set-context default --cluster=default --user=default
 kubectl config use-context default
 
 # kubectl version
-IFS=',' read -r -a DEPLOYMENTS <<< "$PLUGIN_DEPLOYMENT"
+IFS=',' read -r -a DEPLOYMENTS <<< "${PLUGIN_DEPLOYMENT}"
+IFS=',' read -r -a CONTAINERS <<< "${PLUGIN_CONTAINER}"
 for DEPLOY in ${DEPLOYMENTS[@]}; do
   echo Deploying to $KUBERNETES_SERVER
-  kubectl -n ${PLUGIN_NAMESPACE} set image deployment/${DEPLOY} \
-    ${PLUGIN_CONTAINER}=${PLUGIN_REPO}:${PLUGIN_TAG}
+  for CONTAINER in ${CONTAINERS[@]}; do
+    kubectl -n ${PLUGIN_NAMESPACE} set image deployment/${DEPLOY} \
+      ${CONTAINER}=${PLUGIN_REPO}:${PLUGIN_TAG}
+  done
 done
